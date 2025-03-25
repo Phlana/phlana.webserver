@@ -11,7 +11,7 @@ import { isAuthorized } from './util';
 
 const port = config.port || 8000;
 
-const allowedOrigins = ['phlana.moe', '75.158.147.208'];
+const allowedOrigins = ['https://phlana.moe/', 'phlana.moe', '75.158.147.208'];
 
 const app = express();
 app.use(cors({
