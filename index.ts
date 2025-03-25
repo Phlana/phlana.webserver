@@ -16,8 +16,14 @@ const app = express();
 const allowedOrigins = ['https://phlana.moe'];
 app.use(cors({
     origin: (origin, callback) => {
-        if (!origin || allowedOrigins.includes(origin)) callback(null, true);
-        else callback(new Error('not allowed by CORS'));
+        if (!origin || allowedOrigins.includes(origin)) {
+            console.log('allowed', origin);
+            callback(null, true);
+        }
+        else {
+            console.log('not allowed', origin);
+            callback(new Error('not allowed by CORS'));
+        }
     },
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true,
