@@ -11,11 +11,14 @@ import { isAuthorized } from './util';
 
 const port = config.port || 8000;
 
-const allowedOrigins = ['https://phlana.moe/', 'phlana.moe', '75.158.147.208'];
-
 const app = express();
+
+const allowedOrigins = ['https://phlana.moe'];
 app.use(cors({
-    origin: allowedOrigins,
+    origin: (origin, callback) => {
+        if (!origin || allowedOrigins.includes(origin)) callback(null, true);
+        else callback(new Error('not allowed by CORS'));
+    },
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true,
 }));

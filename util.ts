@@ -9,7 +9,7 @@ export const getErrorMessage = (error: any) => {
 };
 
 export const isAuthorized: RequestHandler = async (req, res, next) => {
-    // console.log(req.headers.authorization);
+    console.log('isAuthorized', req);
     try {
         var result: JwtPayload = verifyToken(req.headers.authorization) as JwtPayload;
         // console.log(result);
