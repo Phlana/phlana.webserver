@@ -11,8 +11,15 @@ import { isAuthorized } from './util';
 
 const port = config.port || 8000;
 
+const allowedOrigins = ['phlana.moe', '75.158.147.208'];
+
 const app = express();
-app.use(cors());
+app.use(cors({
+    origin: allowedOrigins,
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    credentials: true,
+}));
+
 app.set('port', port);
 app.use(routes);
 app.use('/api', discord);
