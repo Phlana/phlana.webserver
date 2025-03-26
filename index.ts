@@ -12,22 +12,7 @@ import { isAuthorized } from './util';
 const port = config.port || 8000;
 
 const app = express();
-
-const allowedOrigins = ['https://phlana.moe'];
-app.use(cors({
-    origin: (origin, callback) => {
-        if (!origin || allowedOrigins.includes(origin)) {
-            console.log('allowed', origin);
-            callback(null, true);
-        }
-        else {
-            console.log('not allowed', origin);
-            callback(new Error('not allowed by CORS'));
-        }
-    },
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    credentials: true,
-}));
+app.use(cors());
 
 app.set('port', port);
 app.use(routes);
@@ -38,6 +23,10 @@ connectToDatabase().then(() => {
     app.use('/api', isAuthorized, mongo);
 }).catch((error) => {
     console.error('failed to connect to database', error);
+});
+
+app.get('/', (req, res) => {
+    res.json({ message: 'phlana.moe backend'});
 });
 
 app.listen(app.get('port'), "0.0.0.0", () => {
