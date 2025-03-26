@@ -40,6 +40,6 @@ connectToDatabase().then(() => {
     console.error('failed to connect to database', error);
 });
 
-app.listen(app.get('port'), () => {
-    console.log(`server started on http://localhost:${port}`);
+app.listen(app.get('port'), "0.0.0.0", () => {
+    console.log(`server started on port ${port}`);
 });
