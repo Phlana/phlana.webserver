@@ -1,7 +1,4 @@
-import fs from 'fs';
-import https from 'https';
-import http from 'http';
-import express, { Request, Response } from 'express';
+import express, { RequestHandler } from 'express';
 import cors from 'cors';
 import routes from './routes';
 import discord from './discord';
@@ -16,23 +13,7 @@ const port = config.port || 8000;
 
 const app = express();
 
-// Load SSL certificate and private key
-const options = {
-    key: fs.readFileSync('/etc/letsencrypt/live/example.com/privkey.pem'),
-    cert: fs.readFileSync('/etc/letsencrypt/live/example.com/cert.pem'),
-    ca: fs.readFileSync('/etc/letsencrypt/live/example.com/chain.pem')
-};
-
-https.createServer(options, app).listen(443, () => {
-    console.log('secure server running');
-});
-
-http.createServer((req, res) => {
-    res.writeHead(301, { location: `https://${req.headers['host']}${req.url}` });
-    res.end();
-}).listen(80, () => {
-    console.log('redirecting http to https');
-});
+// app.use(cors());
 
 // app.set('port', port);
 // app.use(routes);
@@ -45,7 +26,10 @@ http.createServer((req, res) => {
 //     console.error('failed to connect to database', error);
 // });
 
-app.get('/', (req: Request, res: Response) => {
-    console.log('get /');
-    res.end('phlana.moe backend');
+app.get('/', (req, res) => {
+    res.end('phlana.moe backend index');
+});
+
+app.listen(app.get('port'), () => {
+    console.log(`server started on port ${port}`);
 });
